@@ -1,44 +1,21 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Talking Sounds
 
-## Getting Started
+Talking Sounds is a small demo web app that connects with your Spotify account and builds a short music personality card based on your top artists and tracks. The app is built with **Next.js**, **Tailwind CSS** and uses the **Spotify Web API**.
 
-First, run the development server:
+## Development
 
-```bash
+```
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set the environment variables `NEXT_PUBLIC_SPOTIFY_CLIENT_ID` and `NEXT_PUBLIC_SPOTIFY_REDIRECT_URI` in a `.env.local` file. The redirect URI must match the one configured in your Spotify developer dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Login with Spotify (OAuth implicit flow)
+- Fetch top artists and tracks
+- Simple rule-based personality assignment
+- Downloadable card preview
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# talking_sounds
-talking sounds is a web app that turns your spotify data into a unique audio personality card.
-connect your account, get matched to one of the 16 music-based identities and see everything visualized on a stylish,
-double-sided card: front with your type, back with an interactive vinyl chart.
-
-!! no data is stored. fully responsive. ready to share. !!
+No data is stored on the server. Everything happens in-memory in the browser.
