@@ -42,4 +42,3 @@ connect your account, get matched to one of the 16 music-based identities and se
 double-sided card: front with your type, back with an interactive vinyl chart.
 
 !! no data is stored. fully responsive. ready to share. !!
->>>>>>> ad13d789c5d3275d9a2e4caa69e2d30d925742fb
