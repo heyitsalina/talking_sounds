@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
-import PersonalityCard from '@/components/PersonalityCard';
+import IdentityCard from '@/components/IdentityCard';
+import { scorePersonality } from '@/lib/personality';
 
 interface Artist {
   name: string;
@@ -42,9 +43,20 @@ export default function Dashboard() {
     );
   }
 
+  const personality = scorePersonality(
+    artists.map((a) => ({ genres: a.genres, popularity: a.popularity })),
+    tracks.map((t) => ({ danceability: 0.5, energy: 0.5 })),
+  );
+  const sampleGenres = artists[0].genres.slice(0, 5).map((g) => ({ name: g, value: 1 }));
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-8 p-6">
-      <PersonalityCard artists={artists} tracks={tracks} />
+      <IdentityCard
+        title={personality}
+        description="Your unique music vibe"
+        accent="#ff0"
+        genres={sampleGenres}
+      />
     </main>
   );
 }
