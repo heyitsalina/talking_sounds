@@ -11,5 +11,5 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
     redirect_uri: redirectUri,
   });
 
-  res.redirect(`https://accounts.spotify.com/authorize?${params.toString()}`);
+  res.redirect(`http://127.0.0.1:3000/api/spotify/callback`);
 }
