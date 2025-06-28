@@ -4,7 +4,8 @@ interface Slice {
 }
 
 export default function CDChart({ data }: { data: Slice[] }) {
-  const total = data.reduce((s, d) => s + d.value, 0);
+  // TODO: implement vinyl style chart using SVG or D3
+  const total = data.reduce((t, s) => t + s.value, 0) || 1;
   let offset = 0;
   const radius = 120;
   const center = 150;
@@ -23,7 +24,7 @@ export default function CDChart({ data }: { data: Slice[] }) {
             strokeWidth={40}
             strokeDasharray={`${dash} ${gap}`}
             strokeDashoffset={-offset}
-            stroke="hsl(${(i * 40) % 360},70%,50%)"
+            stroke={`hsl(${(i * 40) % 360},70%,50%)`}
           />
         );
         offset += dash;

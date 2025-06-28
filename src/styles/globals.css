@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
