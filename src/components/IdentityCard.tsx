@@ -1,14 +1,19 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import CardFront from './CardFront';
 import CardBack from './CardBack';
+
+interface Genre {
+  name: string;
+  value: number;
+}
 
 interface Props {
   title: string;
   description: string;
   accent: string;
-  genres: { name: string; value: number }[];
+  genres: Genre[];
 }
 
 export default function IdentityCard({ title, description, accent, genres }: Props) {
@@ -17,10 +22,11 @@ export default function IdentityCard({ title, description, accent, genres }: Pro
 
   const download = async () => {
     if (!cardRef.current) return;
+    // TODO: optionally customize file name
     const canvas = await html2canvas(cardRef.current);
     const link = document.createElement('a');
-    link.download = 'identity-card.png';
     link.href = canvas.toDataURL('image/png');
+    link.download = 'identity-card.png';
     link.click();
   };
 
@@ -28,7 +34,8 @@ export default function IdentityCard({ title, description, accent, genres }: Pro
     <div className="flex flex-col items-center gap-2">
       <div
         ref={cardRef}
-        className="[perspective:1000px]" onClick={() => setFlipped((f) => !f)}
+        className="[perspective:1000px]"
+        onClick={() => setFlipped(!flipped)}
       >
         <div
           className="relative h-[400px] w-[300px] duration-700 [transform-style:preserve-3d]"
@@ -37,12 +44,20 @@ export default function IdentityCard({ title, description, accent, genres }: Pro
           <div className="absolute inset-0 [backface-visibility:hidden]">
             <CardFront title={title} description={description} accent={accent} />
           </div>
-          <div className="absolute inset-0 [backface-visibility:hidden]" style={{ transform: 'rotateY(180deg)' }}>
+          <div
+            className="absolute inset-0 [backface-visibility:hidden]"
+            style={{ transform: 'rotateY(180deg)' }}
+          >
             <CardBack genres={genres} />
           </div>
         </div>
       </div>
-      <button onClick={download} className="rounded bg-blue-600 px-3 py-1 text-white">Download</button>
+      <button
+        onClick={download}
+        className="rounded bg-blue-600 px-3 py-1 text-white"
+      >
+        Download
+      </button>
     </div>
   );
 }

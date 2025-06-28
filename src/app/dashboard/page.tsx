@@ -1,61 +1,29 @@
-"use client";
+'use client';
 import { useEffect, useState } from 'react';
 import IdentityCard from '@/components/IdentityCard';
-import { scorePersonality } from '@/lib/personality';
-
-interface Artist {
-  name: string;
-  popularity: number;
-  genres: string[];
-}
-
-interface Track {
-  name: string;
-  artists: { name: string }[];
-}
+import { getTopArtists, getTopTracks } from '@/lib/spotify';
+import { mapPersonality } from '@/lib/personality';
 
 export default function Dashboard() {
-  const [artists, setArtists] = useState<Artist[]>([]);
-  const [tracks, setTracks] = useState<Track[]>([]);
-
+  const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
-    const token = sessionStorage.getItem('access_token');
-    if (!token) return;
-
-    fetch('/api/spotify/top?type=artists', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setArtists(data.items || []));
-
-    fetch('/api/spotify/top?type=tracks', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setTracks(data.items || []));
+    const t = sessionStorage.getItem('spotify_token');
+    if (t) setToken(t);
   }, []);
 
-  if (!artists.length || !tracks.length) {
-    return (
-      <main className="flex h-screen items-center justify-center">
-        Loading your music data...
-      </main>
-    );
-  }
+  // TODO: fetch data once token is set and store in state
+  const artists: any[] = [];
+  const tracks: any[] = [];
 
-  const personality = scorePersonality(
-    artists.map((a) => ({ genres: a.genres, popularity: a.popularity })),
-    tracks.map((t) => ({ danceability: 0.5, energy: 0.5 })),
-  );
-  const sampleGenres = artists[0].genres.slice(0, 5).map((g) => ({ name: g, value: 1 }));
+  const personality = mapPersonality(artists, tracks);
 
   return (
-    <main className="flex min-h-screen flex-col items-center gap-8 p-6">
+    <main className="p-8">
       <IdentityCard
         title={personality}
-        description="Your unique music vibe"
-        accent="#ff0"
-        genres={sampleGenres}
+        description="Your music personality"
+        accent="#000"
+        genres={[]}
       />
     </main>
   );
