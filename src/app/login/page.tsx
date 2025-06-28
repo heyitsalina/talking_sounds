@@ -1,15 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default function login(req: NextApiRequest, res: NextApiResponse) {
-  const clientId = process.env.SPOTIFY_CLIENT_ID!;
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/callback`;
+/**
+ * Redirects the user to Spotify authorization screen.
+ * All Spotify credentials must be present in the environment.
+ */
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = process.env;
 
-  const params = new URLSearchParams({
-    response_type: 'code',
-    client_id: clientId,
-    scope: 'user-top-read',
-    redirect_uri: redirectUri,
-  });
+  // Validate that required environment variables exist
+  if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
+    res.status(500).json({ error: 'Missing Spotify credentials' });
+    return;
+  }
 
-  res.redirect(`http://127.0.0.1:3000/api/spotify/callback`);
+  // Build the authorization URL
+  const redirect = encodeURIComponent(REDIRECT_URI);
+  const url =
+    `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}` +
+    `&scope=user-top-read&redirect_uri=${redirect}`;
+
+  // Redirect the user to Spotify's authorization endpoint
+  res.redirect(url);
 }
